@@ -370,9 +370,18 @@ class YOLOV3(object):
                             color, 2)
         return image
 
-    def predict_image(self, image_path):
-        # preprocess the image
-        image = cv2.imread(image_path)
+    def predict_image(self, image):
+        """
+
+        Args:
+            image: path to image or np.array
+
+        Returns:
+            np.array:
+
+        """
+        if isinstance(image, str):
+            image = cv2.imread(image_path)
         image_h, image_w, _ = image.shape
         new_image = self.preprocess_input(image, self.net_h, self.net_w)
 
