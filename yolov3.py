@@ -8,6 +8,8 @@ from tensorflow.python.keras.layers.merge import add, concatenate
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.models import load_model
 import google_drive_downloader
+
+
 # from google.colab import files
 
 
@@ -48,15 +50,15 @@ class YOLOV3(object):
         self.obj_thresh, self.nms_thresh = 0.5, 0.45
         self.anchors = [[116, 90, 156, 198, 373, 326], [30, 61, 62, 45, 59, 119], [10, 13, 16, 30, 33, 23]]
         self.labels = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck",
-                  "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench",
-                  "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe",
-                  "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard",
-                  "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard",
-                  "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana",
-                  "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake",
-                  "chair", "sofa", "pottedplant", "bed", "diningtable", "toilet", "tvmonitor", "laptop", "mouse",
-                  "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator",
-                  "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"]
+                       "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench",
+                       "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe",
+                       "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard",
+                       "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard",
+                       "tennis racket", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana",
+                       "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake",
+                       "chair", "sofa", "pottedplant", "bed", "diningtable", "toilet", "tvmonitor", "laptop", "mouse",
+                       "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator",
+                       "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"]
         self.labels_num = np.arange(0, len(self.labels) - 1)
         self.classes = dict(zip(self.labels_num, self.labels))
         self.colors = [np.random.randint(0, 255, 3) for _ in range(len(self.classes))]
@@ -66,7 +68,8 @@ class YOLOV3(object):
         gdd = google_drive_downloader.GoogleDriveDownloader()
 
         if not os.path.exists(self.weights_path):
-            gdd.download_file_from_google_drive(file_id=self.weights_file_id, dest_path=self.weights_path, overwrite=True)
+            gdd.download_file_from_google_drive(file_id=self.weights_file_id, dest_path=self.weights_path,
+                                                overwrite=True)
         model = load_model(self.weights_path)
         return model
 
@@ -129,24 +132,27 @@ class YOLOV3(object):
 
         # Layer  0 => 4
         x = self._conv_block(input_image,
-                        [{'filter': 32, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 0},
-                         {'filter': 64, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 1},
-                         {'filter': 32, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 2},
-                         {'filter': 64, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 3}])
+                             [{'filter': 32, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 0},
+                              {'filter': 64, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 1},
+                              {'filter': 32, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 2},
+                              {'filter': 64, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 3}])
 
         # Layer  5 => 8
-        x = self._conv_block(x, [{'filter': 128, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 5},
-                            {'filter': 64, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 6},
-                            {'filter': 128, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 7}])
+        x = self._conv_block(x,
+                             [{'filter': 128, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 5},
+                              {'filter': 64, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 6},
+                              {'filter': 128, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 7}])
 
         # Layer  9 => 11
         x = self._conv_block(x, [{'filter': 64, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 9},
-                            {'filter': 128, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 10}])
+                                 {'filter': 128, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True,
+                                  'layer_idx': 10}])
 
         # Layer 12 => 15
-        x = self._conv_block(x, [{'filter': 256, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 12},
-                            {'filter': 128, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 13},
-                            {'filter': 256, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 14}])
+        x = self._conv_block(x,
+                             [{'filter': 256, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 12},
+                              {'filter': 128, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 13},
+                              {'filter': 256, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 14}])
 
         # Layer 16 => 36
         for i in range(7):
@@ -157,9 +163,10 @@ class YOLOV3(object):
         skip_36 = x
 
         # Layer 37 => 40
-        x = self._conv_block(x, [{'filter': 512, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 37},
-                            {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 38},
-                            {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 39}])
+        x = self._conv_block(x,
+                             [{'filter': 512, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 37},
+                              {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 38},
+                              {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 39}])
 
         # Layer 41 => 61
         for i in range(7):
@@ -170,9 +177,11 @@ class YOLOV3(object):
         skip_61 = x
 
         # Layer 62 => 65
-        x = self._conv_block(x, [{'filter': 1024, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 62},
-                            {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 63},
-                            {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 64}])
+        x = self._conv_block(x,
+                             [{'filter': 1024, 'kernel': 3, 'stride': 2, 'bnorm': True, 'leaky': True, 'layer_idx': 62},
+                              {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 63},
+                              {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True,
+                               'layer_idx': 64}])
 
         # Layer 66 => 74
         for i in range(3):
@@ -181,12 +190,13 @@ class YOLOV3(object):
                 {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 67 + i * 3}])
 
         # Layer 75 => 79
-        x = self._conv_block(x, [{'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 75},
-                            {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 76},
-                            {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 77},
-                            {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 78},
-                            {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 79}],
-                        skip=False)
+        x = self._conv_block(x,
+                             [{'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 75},
+                              {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 76},
+                              {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 77},
+                              {'filter': 1024, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 78},
+                              {'filter': 512, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 79}],
+                             skip=False)
 
         # Layer 80 => 82
         yolo_82 = self._conv_block(x, [
@@ -194,28 +204,32 @@ class YOLOV3(object):
             {'filter': 255, 'kernel': 1, 'stride': 1, 'bnorm': False, 'leaky': False, 'layer_idx': 81}], skip=False)
 
         # Layer 83 => 86
-        x = self._conv_block(x, [{'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 84}],
-                        skip=False)
+        x = self._conv_block(x,
+                             [{'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 84}],
+                             skip=False)
         x = UpSampling2D(2)(x)
         x = concatenate([x, skip_61])
 
         # Layer 87 => 91
-        x = self._conv_block(x, [{'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 87},
-                            {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 88},
-                            {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 89},
-                            {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 90},
-                            {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 91}],
-                        skip=False)
+        x = self._conv_block(x,
+                             [{'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 87},
+                              {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 88},
+                              {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 89},
+                              {'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 90},
+                              {'filter': 256, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 91}],
+                             skip=False)
 
         # Layer 92 => 94
         yolo_94 = self._conv_block(x,
-                              [{'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 92},
-                               {'filter': 255, 'kernel': 1, 'stride': 1, 'bnorm': False, 'leaky': False,
-                                'layer_idx': 93}], skip=False)
+                                   [{'filter': 512, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True,
+                                     'layer_idx': 92},
+                                    {'filter': 255, 'kernel': 1, 'stride': 1, 'bnorm': False, 'leaky': False,
+                                     'layer_idx': 93}], skip=False)
 
         # Layer 95 => 98
-        x = self._conv_block(x, [{'filter': 128, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 96}],
-                        skip=False)
+        x = self._conv_block(x,
+                             [{'filter': 128, 'kernel': 1, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 96}],
+                             skip=False)
         x = UpSampling2D(2)(x)
         x = concatenate([x, skip_36])
 
@@ -356,7 +370,6 @@ class YOLOV3(object):
                             color, 2)
         return image
 
-
     def predict_image(self, image_path):
         # preprocess the image
         image = cv2.imread(image_path)
@@ -369,7 +382,8 @@ class YOLOV3(object):
 
         for i in range(len(yolos)):
             # decode the output of the network
-            boxes += self.decode_netout(yolos[i][0], self.anchors[i], self.obj_thresh, self.nms_thresh, self.net_h, self.net_w)
+            boxes += self.decode_netout(yolos[i][0], self.anchors[i], self.obj_thresh, self.nms_thresh, self.net_h,
+                                        self.net_w)
 
         # correct the sizes of the bounding boxes
         self.correct_yolo_boxes(boxes, image_h, image_w, self.net_h, self.net_w)
@@ -396,7 +410,14 @@ class YOLOV3(object):
     #         plt.show()
 
 
-yolo = YOLOV3()
-img = yolo.predict_image('/home/kyle/Pictures/frame-0504_l.png')
-cv2.imshow('img', img)
-cv2.waitKey(0)
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--image-path', type=str, help='path to image file', required=True)
+    args = parser.parse_args()
+    image_path = args.image_path
+    yolo = YOLOV3()
+    img = yolo.predict_image(image_path)
+    cv2.imshow('detections', img)
+    cv2.waitKey(0)
