@@ -41,9 +41,9 @@ class BoundBox:
 
 class YOLOV3(object):
     def __init__(self):
-
+        this_dir = os.path.dirname(__file__)
         self.weights_file_id = '17_gI1axTkDYL_myS8ZITTyUdlk2DLX2m'  # Google Drive id
-        self.weights_path = './models/darknet53.h5'
+        self.weights_path = os.path.join(this_dir, 'weights/darknet53.h5')
 
         # set some parameters
         self.net_h, self.net_w = 416, 416
