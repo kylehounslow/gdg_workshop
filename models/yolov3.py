@@ -381,7 +381,7 @@ class YOLOV3(object):
 
         """
         if isinstance(image, str):
-            image = cv2.imread(image_path)
+            image = cv2.imread(image)
         image_h, image_w, _ = image.shape
         new_image = self.preprocess_input(image, self.net_h, self.net_w)
 
@@ -407,16 +407,6 @@ class YOLOV3(object):
         # write the image with bounding boxes to file
         cv2.imwrite(output_filename, (image).astype('uint8'))
         return image
-
-    # def upload_detect_show(self):
-    #     uploaded_files = files.upload()
-    #     image_filenames = list(uploaded_files.keys())
-    #     for image_filename in image_filenames:
-    #         img_pred = self.predict_image(image_path=image_filename)
-    #         import matplotlib.pyplot as plt
-    #         plt.figure(figsize=(18, 12))
-    #         plt.imshow(cv2.cvtColor(img_pred, cv2.COLOR_BGR2RGB))
-    #         plt.show()
 
 
 if __name__ == '__main__':
