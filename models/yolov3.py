@@ -403,9 +403,6 @@ class YOLOV3(object):
         # draw bounding boxes on the image using labels
 
         self.draw_boxes(image, boxes, self.labels, self.obj_thresh, self.colors)
-        output_filename = image_path[:-4] + '_detected' + image_path[-4:]
-        # write the image with bounding boxes to file
-        cv2.imwrite(output_filename, (image).astype('uint8'))
         return image
 
 
