@@ -387,7 +387,7 @@ class YOLOV3(object):
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
                 bboxes_result.append(box)
-                labels_result.append((label, color))
+                labels_result.append((label, label_str, color))
         return bboxes_result, labels_result
 
     def predict(self, image, obj_thresh=None):
