@@ -34,14 +34,14 @@ def get_filename_from_cd(cd):
     return fname[0]
 
 
-def download_image(url, save_to):
+def download_image(url, save_to=None):
     """
     Download an image from URL
     Raises:
         Exceptions for file not downloadable, error file write, error file read.
     Args:
         url: valid image url
-        save_to: save to this path
+        save_to: (optional) save image to this path
     Returns:
         numpy.ndarray: Image as numpy array
     """
@@ -53,10 +53,13 @@ def download_image(url, save_to):
     filename = get_filename_from_cd(req.headers.get('content-disposition'))
     if filename is None:
         _, ext = os.path.splitext(url)
-        filename = f'default{ext}'
-    if not os.path.exists(save_to):
-        os.makedirs(save_to)
-    filepath = os.path.join(save_to, filename)
+        filename = 'default{}'.format(ext)
+    if save_to is not None:
+        if not os.path.exists(save_to):
+            os.makedirs(save_to)
+        filepath = os.path.join(save_to, filename)
+    else:
+        filepath = filename
     with open(filepath, 'wb') as f:
         f.write(req.content)
     if not os.path.exists(filepath):
@@ -68,4 +71,6 @@ def download_image(url, save_to):
         msg = 'error reading {} from disk.'.format(filepath)
         LOGGER.error(msg)
         raise Exception(msg)
-    return img, filepath
+    if save_to is None:
+        os.remove(filename)
+    return img
