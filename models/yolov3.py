@@ -370,14 +370,35 @@ class YOLOV3(object):
                             color, 2)
         return image
 
-    def predict_image(self, image):
+    def _filter_bboxes(self, boxes, obj_thresh):
+        labels_result = []
+        bboxes_result = []
+        for box in boxes:
+            label_str = ''
+            label = -1
+
+            for i in range(len(self.labels)):
+                if box.classes[i] > obj_thresh:
+                    label_str += self.labels[i]
+                    label = i
+                    print(self.labels[i] + ': ' + str(box.classes[i] * 100) + '%')
+
+            if label >= 0:
+                color = self.colors[label]
+                color = (int(color[0]), int(color[1]), int(color[2]))
+                bboxes_result.append(box)
+                labels_result.append((label, color))
+        return bboxes_result, labels_result
+
+    def predict(self, image, obj_thresh=None):
         """
 
         Args:
             image: path to image or np.array
+            obj_thresh: confidence threshold
 
         Returns:
-            np.array:
+            tuple: bboxes_result, labels_result
 
         """
         if isinstance(image, str):
@@ -396,24 +417,21 @@ class YOLOV3(object):
 
         # correct the sizes of the bounding boxes
         self.correct_yolo_boxes(boxes, image_h, image_w, self.net_h, self.net_w)
-
-        # suppress non-maximal boxes
-        self.do_nms(boxes, self.nms_thresh)
-
-        # draw bounding boxes on the image using labels
-
-        self.draw_boxes(image, boxes, self.labels, self.obj_thresh, self.colors)
-        return image
+        if obj_thresh is None:
+            obj_thresh = self.obj_thresh
+        bboxes_result, labels_result = self._filter_bboxes(boxes, obj_thresh)
+        return bboxes_result, labels_result
 
 
 if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--image-path', type=str, help='path to image file', required=True)
-    args = parser.parse_args()
-    image_path = args.image_path
-    yolo = YOLOV3()
-    img = yolo.predict_image(image_path)
-    cv2.imshow('detections', img)
-    cv2.waitKey(0)
+    raise NotImplementedError
+    # import argparse
+    #
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('-i', '--image-path', type=str, help='path to image file', required=True)
+    # args = parser.parse_args()
+    # image_path = args.image_path
+    # yolo = YOLOV3()
+    # img = yolo.predict_image(image_path)
+    # cv2.imshow('detections', img)
+    # cv2.waitKey(0)
