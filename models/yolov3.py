@@ -10,9 +10,6 @@ from tensorflow.python.keras.models import load_model
 import google_drive_downloader
 
 
-# from google.colab import files
-
-
 class BoundBox:
     def __init__(self, xmin, ymin, xmax, ymax, objness=None, classes=None):
         self.xmin = xmin
@@ -387,7 +384,7 @@ class YOLOV3(object):
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
                 bboxes_result.append(box)
-                labels_result.append((label, label_str, color))
+                labels_result.append((label_str, color))
         return bboxes_result, labels_result
 
     def predict(self, image, obj_thresh=None):
@@ -398,7 +395,7 @@ class YOLOV3(object):
             obj_thresh: confidence threshold
 
         Returns:
-            tuple: bboxes_result, labels_result
+            tuple: bboxes_result (list), labels_result (tuple(class, color))
 
         """
         if isinstance(image, str):
@@ -417,10 +414,15 @@ class YOLOV3(object):
 
         # correct the sizes of the bounding boxes
         self.correct_yolo_boxes(boxes, image_h, image_w, self.net_h, self.net_w)
+        # suppress non-maximal boxes
+        self.do_nms(boxes, self.nms_thresh)
         if obj_thresh is None:
             obj_thresh = self.obj_thresh
         bboxes_result, labels_result = self._filter_bboxes(boxes, obj_thresh)
         return bboxes_result, labels_result
+
+    def draw_detections(self, bboxes, labels):
+
 
 
 if __name__ == '__main__':
