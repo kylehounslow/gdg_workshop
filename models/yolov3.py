@@ -353,7 +353,7 @@ class YOLOV3(object):
                 if box.classes[i] > obj_thresh:
                     label_str += labels[i]
                     label = i
-                    print(labels[i] + ': ' + str(box.classes[i] * 100) + '%')
+                    # print(labels[i] + ': ' + str(box.classes[i] * 100) + '%')
 
             if label >= 0:
                 color = colors[label]
