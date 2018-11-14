@@ -11,7 +11,7 @@ import google_drive_downloader
 
 
 class BoundBox:
-    def __init__(self, xmin, ymin, xmax, ymax, objness=None, classes=None):
+    def __init__(self, xmin, ymin, xmax, ymax, objness=None, classes=None, color=(0, 255, 0)):
         self.xmin = xmin
         self.ymin = ymin
         self.xmax = xmax
@@ -22,6 +22,8 @@ class BoundBox:
 
         self.label = -1
         self.score = -1
+
+        self.color = color
 
     def get_label(self):
         if self.label == -1:
@@ -378,13 +380,13 @@ class YOLOV3(object):
                 if box.classes[i] > obj_thresh:
                     label_str += self.labels[i]
                     label = i
-                    print(self.labels[i] + ': ' + str(box.classes[i] * 100) + '%')
 
             if label >= 0:
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
+                box.color = color
                 bboxes_result.append(box)
-                labels_result.append((label_str, color))
+                labels_result.append((label_str))
         return bboxes_result, labels_result
 
     def predict(self, image, obj_thresh=None):
@@ -421,8 +423,19 @@ class YOLOV3(object):
         bboxes_result, labels_result = self._filter_bboxes(boxes, obj_thresh)
         return bboxes_result, labels_result
 
-    def draw_detections(self, bboxes, labels):
-        pass
+    def draw_detections(self, img, detections):
+        img_draw = img.copy()
+        bboxes, labels = detections
+        for bbox, label in zip(bboxes, labels):
+            label_str, label_color = label
+            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), label_color, 3)
+            cv2.putText(img_draw,
+                        '{} {:.2f}%'.format(label_str, bbox.get_score() * 100),
+                        (bbox.xmin, bbox.ymin - 13),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1e-3 * img_draw.shape[0],
+                        label_color, 2)
+        return img_draw
 
 
 if __name__ == '__main__':
