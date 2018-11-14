@@ -11,7 +11,7 @@ import google_drive_downloader
 
 
 class BoundBox:
-    def __init__(self, xmin, ymin, xmax, ymax, objness=None, classes=None, color=(0, 255, 0)):
+    def __init__(self, xmin, ymin, xmax, ymax, objness=None, classes=None, color=(0, 255, 0), label_str='object'):
         self.xmin = xmin
         self.ymin = ymin
         self.xmax = xmax
@@ -24,6 +24,7 @@ class BoundBox:
         self.score = -1
 
         self.color = color
+        self.label_str = label_str
 
     def get_label(self):
         if self.label == -1:
@@ -384,7 +385,7 @@ class YOLOV3(object):
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
                 box.color = color
-                box.label = label_str
+                box.label_str = label_str
                 bboxes_result.append(box)
         return bboxes_result
 
