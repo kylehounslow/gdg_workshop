@@ -370,7 +370,6 @@ class YOLOV3(object):
         return image
 
     def _filter_bboxes(self, boxes, obj_thresh):
-        labels_result = []
         bboxes_result = []
         for box in boxes:
             label_str = ''
@@ -385,9 +384,9 @@ class YOLOV3(object):
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
                 box.color = color
+                box.label = label_str
                 bboxes_result.append(box)
-                labels_result.append((label_str))
-        return bboxes_result, labels_result
+        return bboxes_result
 
     def predict(self, image, obj_thresh=None):
         """
@@ -420,8 +419,8 @@ class YOLOV3(object):
         self.do_nms(boxes, self.nms_thresh)
         if obj_thresh is None:
             obj_thresh = self.obj_thresh
-        bboxes_result, labels_result = self._filter_bboxes(boxes, obj_thresh)
-        return bboxes_result, labels_result
+        detections = self._filter_bboxes(boxes, obj_thresh)
+        return detections
 
     def draw_detections(self, img, detections):
         img_draw = img.copy()
