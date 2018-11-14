@@ -423,18 +423,27 @@ class YOLOV3(object):
         detections = self._filter_bboxes(boxes, obj_thresh)
         return detections
 
-    def draw_detections(self, img, detections):
+    @staticmethod
+    def draw_detections(img, detections):
+        """
+        Draw detections to image
+        Args:
+            img: image to draw to
+            detections: detections from predict() method
+
+        Returns:
+            np.array: image with bounding boxes and labels drawn
+
+        """
         img_draw = img.copy()
-        bboxes, labels = detections
-        for bbox, label in zip(bboxes, labels):
-            label_str, label_color = label
-            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), label_color, 3)
+        for bbox in detections:
+            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), bbox.color, 3)
             cv2.putText(img_draw,
-                        '{} {:.2f}%'.format(label_str, bbox.get_score() * 100),
+                        '{} {:.2f}%'.format(bbox.label_str, bbox.get_score() * 100),
                         (bbox.xmin, bbox.ymin - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         1e-3 * img_draw.shape[0],
-                        label_color, 2)
+                        bbox.color, 2)
         return img_draw
 
 
