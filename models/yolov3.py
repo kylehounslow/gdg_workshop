@@ -422,7 +422,7 @@ class YOLOV3(object):
         return bboxes_result, labels_result
 
     def draw_detections(self, bboxes, labels):
-
+        pass
 
 
 if __name__ == '__main__':
