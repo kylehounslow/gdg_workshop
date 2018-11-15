@@ -7,9 +7,10 @@ Simply click the link to open in a Colab instance.
 *  hello tensorflow  
 *  MNIST TF Estimator  
 *  MNIST Keras (optional)  
-*  Object Detection (inference)    
-*  Object Detection (Training)  
 *  Semantic Segmentation (inference)  
+*  Object Detection (inference)    
+*  Object Detection (Training, time permitting)  
+
 ## Bonus 
 Below are some interesting notebooks from [Seedbank](https://research.google.com/seedbank/seeds) in my current area of research:   
 * [DeepDreaming With TensorFlow](https://colab.research.google.com/drive/1DWcrN9WXni58MbddvlShX0wF_oeo8W_0#forceEdit=true&offline=true&sandboxMode=true)  
