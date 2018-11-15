@@ -22,7 +22,8 @@ import google_drive_downloader
 
 class Detection(object):
     def __init__(self, bbox, label, color, score):
-        self.bbox = bbox
+        x1, y1, x2, y2 = bbox
+        self.bbox = [int(x1), int(y1), int(x2), int(y2)]
         self.label = label
         self.color = color
         self.score = score
