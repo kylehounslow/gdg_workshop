@@ -194,6 +194,14 @@ class YOLO(object):
         return image
 
     def detect(self, image):
+        """
+        Run detection on image
+        Args:
+            image (np.array or PIL.Image): image to run detections
+
+        Returns:
+            list: list of `Detection` objects
+        """
         if isinstance(image, np.ndarray):
             image = Image.fromarray(image)
         if self.model_image_size != (None, None):
@@ -244,6 +252,8 @@ class YOLO(object):
             np.array: image with bounding boxes and labels drawn
 
         """
+        if not isinstance(img, np.ndarray):
+            img = np.array(img)
         img_draw = img.copy()
         for det in detections:
             x1, y1, x2, y2 = det.bbox
