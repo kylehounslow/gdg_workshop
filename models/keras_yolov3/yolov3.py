@@ -1,10 +1,9 @@
-from models.keras_yolov3.src.yolo import YOLO
+from .src.yolo import YOLO
 from PIL import Image
-
-YOLOV3 = YOLO
 
 if __name__ == '__main__':
     import cv2
+
     vid = cv2.VideoCapture(0)
     yolo = YOLO()
     while True:
