@@ -7,8 +7,8 @@ Simply click the link to open in a Colab instance.
 *  hello tensorflow  
 *  MNIST TF Estimator  
 *  MNIST Keras (optional)  
+*  Object Detection (inference)   
 *  Semantic Segmentation (inference)  
-*  Object Detection (inference)    
 *  Object Detection (Training, time permitting)  
 
 ## Bonus 
