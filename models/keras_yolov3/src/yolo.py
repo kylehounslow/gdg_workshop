@@ -224,10 +224,8 @@ class YOLO(object):
             predicted_class = self.class_names[c]
             bbox = [left, top, right, bottom]
             score = out_scores[i]
-
-            label = '{} {:.2f}'.format(predicted_class, score)
             detection = Detection(bbox=bbox,
-                                  label=label,
+                                  label=predicted_class,
                                   color=self.colors[c],
                                   score=score)
             detections.append(detection)
@@ -258,7 +256,7 @@ class YOLO(object):
                         (x1, y1 - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         1e-3 * img_draw.shape[0],
-                        color, 2)
+                        color, 1.5)
         return img_draw
 
     def close_session(self):
@@ -306,8 +304,10 @@ def detect_video(yolo, video_path, output_path=""):
             break
     yolo.close_session()
 
+
 if __name__ == '__main__':
     import cv2
+
     vid = cv2.VideoCapture(0)
     yolo = YOLO()
     while True:
