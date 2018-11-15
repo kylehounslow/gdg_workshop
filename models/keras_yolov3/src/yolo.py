@@ -243,13 +243,14 @@ class YOLO(object):
         """
         img_draw = img.copy()
         for det in detections:
-            bbox = det.bbox
+            x1, y1, x2, y2 = det.bbox
             color = det.color
             label = det.label
-            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), color, 3)
+            score = det.score
+            cv2.rectangle(img_draw, (x1, y1), (x2, y2), color, 3)
             cv2.putText(img_draw,
-                        '{} {:.2f}%'.format(label, bbox.get_score() * 100),
-                        (bbox.xmin, bbox.ymin - 13),
+                        '{} {:.2f}%'.format(label, score * 100),
+                        (x1, y1 - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         1e-3 * img_draw.shape[0],
                         color, 2)
