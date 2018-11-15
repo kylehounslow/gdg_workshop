@@ -1,1 +1,1 @@
-from .yolov3 import YOLO as YOLOV3
+from .yolov3 import YOLOV3

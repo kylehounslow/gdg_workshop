@@ -5,3 +5,5 @@ requests
 googledrivedownloader
 youtube-dl
 Pillow
+h5py
+matplotlib

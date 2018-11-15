@@ -1,16 +1,1 @@
-from .src.yolo import YOLO
-from PIL import Image
-
-if __name__ == '__main__':
-    import cv2
-
-    vid = cv2.VideoCapture(0)
-    yolo = YOLO()
-    while True:
-        return_value, frame = vid.read()
-        image = Image.fromarray(frame)
-        detections = yolo.detect(image)
-        print(detections)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    yolo.close_session()
+from .src.yolo import YOLO as YOLOV3
