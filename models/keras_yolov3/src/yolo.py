@@ -22,8 +22,8 @@ import google_drive_downloader
 
 class Detection(object):
     def __init__(self, bbox, label, color, score):
-        x1, y1, x2, y2 = bbox
-        self.bbox = [int(x1), int(y1), int(x2), int(y2)]
+        self.bbox = [int(i) for i in bbox]
+        self.x1, self.y1, self.x2, self.y2 = self.bbox
         self.label = label
         self.color = color
         self.score = score
@@ -228,6 +228,32 @@ class YOLO(object):
             detections.append(detection)
 
         return detections
+
+    @staticmethod
+    def draw_detections(img, detections):
+        """
+        Draw detections to image
+        Args:
+            img: image to draw to
+            detections: detections from predict() method
+
+        Returns:
+            np.array: image with bounding boxes and labels drawn
+
+        """
+        img_draw = img.copy()
+        for det in detections:
+            bbox = det.bbox
+            color = det.color
+            label = det.label
+            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), color, 3)
+            cv2.putText(img_draw,
+                        '{} {:.2f}%'.format(label, bbox.get_score() * 100),
+                        (bbox.xmin, bbox.ymin - 13),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1e-3 * img_draw.shape[0],
+                        color, 2)
+        return img_draw
 
     def close_session(self):
         self.sess.close()
