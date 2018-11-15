@@ -256,7 +256,9 @@ class YOLO(object):
                         (x1, y1 - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         1e-3 * img_draw.shape[0],
-                        color, 1.5)
+                        color,
+                        2,
+                        1.25)
         return img_draw
 
     def close_session(self):
