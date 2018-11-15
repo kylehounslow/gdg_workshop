@@ -216,8 +216,13 @@ class YOLO(object):
             })
         detections = []
         for i, c in reversed(list(enumerate(out_classes))):
+            top, left, bottom, right = box
+            top = max(0, np.floor(top + 0.5).astype('int32'))
+            left = max(0, np.floor(left + 0.5).astype('int32'))
+            bottom = min(image.size[1], np.floor(bottom + 0.5).astype('int32'))
+            right = min(image.size[0], np.floor(right + 0.5).astype('int32'))
             predicted_class = self.class_names[c]
-            box = out_boxes[i]
+            box = [left, top, bottom, right]
             score = out_scores[i]
 
             label = '{} {:.2f}'.format(predicted_class, score)
