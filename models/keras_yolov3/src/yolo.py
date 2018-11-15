@@ -255,10 +255,9 @@ class YOLO(object):
                         '{} {:.2f}%'.format(label, score * 100),
                         (x1, y1 - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
-                        1e-3 * img_draw.shape[0],
+                        7e-4 * img_draw.shape[0],
                         color,
-                        2,
-                        1.25)
+                        2)
         return img_draw
 
     def close_session(self):
