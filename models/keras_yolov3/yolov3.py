@@ -1,3 +1,6 @@
+"""
+Adopted from here: https://github.com/experiencor/keras-yolo3
+"""
 import os
 import struct
 import numpy as np
@@ -289,7 +292,7 @@ class YOLOV3(object):
         netout[..., 5:] *= netout[..., 5:] > obj_thresh
 
         for i in range(grid_h * grid_w):
-            row = i / grid_w
+            row = i // grid_w
             col = i % grid_w
 
             for b in range(nb_box):
@@ -455,14 +458,36 @@ class YOLOV3(object):
 
 
 if __name__ == '__main__':
-    raise NotImplementedError
-    # import argparse
-    #
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('-i', '--image-path', type=str, help='path to image file', required=True)
-    # args = parser.parse_args()
-    # image_path = args.image_path
-    # yolo = YOLOV3()
-    # img = yolo.predict_image(image_path)
-    # cv2.imshow('detections', img)
-    # cv2.waitKey(0)
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--image-path', type=str, help='path to image file', required=False)
+    parser.add_argument('-c', '--cam-id', type=str, help='webcam id', required=False)
+    args = parser.parse_args()
+    image_path = args.image_path
+    cam_id = args.cam_id
+    if image_path:
+        img = cv2.imread(image_path)
+        detector = YOLOV3()
+        detections = detector.predict(image=img)
+        img_draw = detector.draw_detections(img, detections)
+        cv2.imshow('detections', img_draw)
+        key = cv2.waitKey(0)
+        if key == ord('q') or key & 0xFFFF == 27:
+            cv2.destroyAllWindows()
+            exit(0)
+    elif cam_id:
+        detector = YOLOV3()
+        vc = cv2.VideoCapture()
+        vc.open(cam_id)
+        while True:
+            _, img = vc.read()
+            detections = detector.predict(image=img)
+            img_draw = detector.draw_detections(img, detections)
+            cv2.imshow('detections', img_draw)
+            key = cv2.waitKey(1)
+            if key == ord('q') or key & 0xFFFF == 27:
+                cv2.destroyAllWindows()
+                exit(0)
+    else:
+        raise ValueError("Must enter one of --cam-id or --image-path")
