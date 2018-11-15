@@ -79,6 +79,26 @@ def download_image(url, save_to=None):
     return img
 
 
+def load_image_from_gcs(filename: str) -> np.array:
+    """
+    Load an image from GCS bucket into a numpy array
+    Args:
+        filename: GCS bucket location
+
+    Returns:
+
+    """
+    try:
+        with file_io.FileIO(filename, 'rb') as gf:  # tensorflow file_io takes care of GCS file loading
+            image_bytes = gf.read()
+            img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
+            img = np.array(img)[:, :, ::-1]  # convert to BGR (to match format of cv2.imread())
+    except Exception as e:
+        LOGGER.error('error loading image: {}'.format(filename))
+        raise Exception(e)
+    return img
+
+
 def is_gcs_location(filename: str) -> bool:
     """
     Check whether filepath is to a Google Cloud Storage bucket
