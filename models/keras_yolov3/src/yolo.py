@@ -222,7 +222,7 @@ class YOLO(object):
             bottom = min(image.size[1], np.floor(bottom + 0.5).astype('int32'))
             right = min(image.size[0], np.floor(right + 0.5).astype('int32'))
             predicted_class = self.class_names[c]
-            bbox = [left, top, bottom, right]
+            bbox = [left, top, right, bottom]
             score = out_scores[i]
 
             label = '{} {:.2f}'.format(predicted_class, score)
