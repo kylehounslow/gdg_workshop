@@ -1,1 +1,2 @@
-from .src.yolo import YOLO as YOLOV3
+from .src.yolo import YOLO
+YOLOV3 = YOLO
