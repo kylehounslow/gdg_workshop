@@ -193,8 +193,8 @@ class YOLO(object):
         return image
 
     def detect(self, image):
-        start = timer()
-
+        if not isinstance(image, Image):
+            image = Image.fromarray(image)
         if self.model_image_size != (None, None):
             assert self.model_image_size[0] % 32 == 0, 'Multiples of 32 required'
             assert self.model_image_size[1] % 32 == 0, 'Multiples of 32 required'
