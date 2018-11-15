@@ -39,6 +39,13 @@ class BoundBox:
         return self.score
 
 
+class Detection(object):
+    def __init__(self, bbox, label, color):
+        self.bbox = bbox
+        self.label = label
+        self.color = color
+
+
 class YOLOV3(object):
     def __init__(self):
         this_dir = os.path.dirname(__file__)
@@ -370,8 +377,8 @@ class YOLOV3(object):
                             color, 2)
         return image
 
-    def _filter_bboxes(self, boxes, obj_thresh):
-        bboxes_result = []
+    def _filter_bboxes_get_detections(self, boxes, obj_thresh):
+        detections = []
         for box in boxes:
             label_str = ''
             label = -1
@@ -384,10 +391,9 @@ class YOLOV3(object):
             if label >= 0:
                 color = self.colors[label]
                 color = (int(color[0]), int(color[1]), int(color[2]))
-                box.color = color
-                box.label_str = label_str
-                bboxes_result.append(box)
-        return bboxes_result
+                detection = Detection(bbox=box, label=label_str, color=color)
+                detections.append(detection)
+        return detections
 
     def predict(self, image, obj_thresh=None):
         """
@@ -408,19 +414,17 @@ class YOLOV3(object):
         # run the prediction
         yolos = self.model.predict(new_image)
         boxes = []
-
         for i in range(len(yolos)):
             # decode the output of the network
             boxes += self.decode_netout(yolos[i][0], self.anchors[i], self.obj_thresh, self.nms_thresh, self.net_h,
                                         self.net_w)
-
         # correct the sizes of the bounding boxes
         self.correct_yolo_boxes(boxes, image_h, image_w, self.net_h, self.net_w)
         # suppress non-maximal boxes
         self.do_nms(boxes, self.nms_thresh)
         if obj_thresh is None:
             obj_thresh = self.obj_thresh
-        detections = self._filter_bboxes(boxes, obj_thresh)
+        detections = self._filter_bboxes_get_detections(boxes, obj_thresh)
         return detections
 
     @staticmethod
@@ -436,14 +440,17 @@ class YOLOV3(object):
 
         """
         img_draw = img.copy()
-        for bbox in detections:
-            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), bbox.color, 3)
+        for det in detections:
+            bbox = det.bbox
+            color = det.color
+            label = det.label
+            cv2.rectangle(img_draw, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), color, 3)
             cv2.putText(img_draw,
-                        '{} {:.2f}%'.format(bbox.label_str, bbox.get_score() * 100),
+                        '{} {:.2f}%'.format(label, bbox.get_score() * 100),
                         (bbox.xmin, bbox.ymin - 13),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         1e-3 * img_draw.shape[0],
-                        bbox.color, 2)
+                        color, 2)
         return img_draw
 
 

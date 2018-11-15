@@ -3,3 +3,5 @@ tensorflow-gpu==1.9.0
 opencv-python
 requests
 googledrivedownloader
+youtube-dl
+Pillow
