@@ -12,10 +12,10 @@ from keras import backend as K
 from keras.models import load_model
 from keras.layers import Input
 from PIL import Image, ImageFont, ImageDraw
+import cv2
 
 from .yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
 from .yolo3.utils import letterbox_image
-import os
 from keras.utils import multi_gpu_model
 import google_drive_downloader
 
