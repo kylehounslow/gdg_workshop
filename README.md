@@ -1,6 +1,6 @@
 # Welcome to the GDG TensorFlow Codelab!
 Links to the notebooks to be run in [Google Colab](colab.research.google.com) will be live as soon as they become available.  
-Simply click the link to open in a Colab instance.  
+Simply click the links to open Notebooks in a Colab instance.  
 
 ## Notebooks:  
 *  Hello TensorFlow!  
