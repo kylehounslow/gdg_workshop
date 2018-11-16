@@ -5,9 +5,8 @@ Simply click the link to open in a Colab instance.
 ## Notebooks:  
 * intro to notebooks  
 *  hello tensorflow  
-*  [MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
-*  MNIST Keras (optional)  
-*  Object Detection (inference)   
+*  [Keras Object Detection](https://github.com/kylehounslow/gdg_workshop/blob/master/notebooks/keras_object_detection.ipynb)  
+*  [Train MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
 *  Semantic Segmentation (inference)  
 *  Object Detection (Training, time permitting)  
 
