@@ -3,12 +3,10 @@ Links to the notebooks to be run in [Google Colab](colab.research.google.com) wi
 Simply click the link to open in a Colab instance.  
 
 ## Notebooks:  
-* intro to notebooks  
-*  hello tensorflow  
+*  Hello TensorFlow!  
 *  [Keras Object Detection](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_object_detection.ipynb)  
+*  Semantic Segmentation  
 *  [Train MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
-*  Semantic Segmentation (inference)  
-*  Object Detection (Training, time permitting)  
 
 ## Bonus 
 Below are some interesting notebooks from [Seedbank](https://research.google.com/seedbank/seeds) in my current area of research:   
