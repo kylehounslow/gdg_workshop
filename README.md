@@ -7,6 +7,7 @@ Simply click the links to open Notebooks in a Colab instance.
 *  [Keras Object Detection](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_object_detection.ipynb)  
 *  Semantic Segmentation  
 *  [Train MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
+*  [Train MNIST with Keras (Optional)](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_mnist.ipynb)  
 
 ## Bonus 
 Below are some interesting notebooks from [Seedbank](https://research.google.com/seedbank/seeds) in my current area of research:   
