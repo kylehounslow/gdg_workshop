@@ -3,7 +3,7 @@ Links to the notebooks to be run in [Google Colab](colab.research.google.com) wi
 Simply click the links to open Notebooks in a Colab instance.  
 
 ## Notebooks:  
-*  Hello TensorFlow!  
+*  [Hello TensorFlow!](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/hello_tensorflow.ipynb)  
 *  [Keras Object Detection](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_object_detection.ipynb)  
 *  Semantic Segmentation  
 *  [Train MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
