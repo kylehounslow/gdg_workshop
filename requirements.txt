@@ -7,3 +7,5 @@ youtube-dl
 Pillow
 h5py
 matplotlib
+keras
+tqdm
