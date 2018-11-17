@@ -16,9 +16,9 @@ def main():
     detector = YOLOV3()
     while True:
         _, img = vc.read()
+        img = cv2.resize(img, (1280, 960))
         detections = detector.detect(image=cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         img_draw = detector.draw_detections(img, detections)
-        img_draw = cv2.resize(img_draw, (1280, 960))
         cv2.imshow("Detections", img_draw)
         key = cv2.waitKey(1)
         if key & 0xFFFF == 27:
