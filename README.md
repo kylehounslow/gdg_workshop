@@ -2,10 +2,12 @@
 Links to the notebooks to be run in [Google Colab](colab.research.google.com) will be live as soon as they become available.  
 Simply click the links to open Notebooks in a Colab instance.  
 
+## Slides
+Slides from the presentation are shared [here](https://docs.google.com/presentation/d/1LF5UxO-DFqkFQ4LjXcQzb02AAwG8KwkKlR1KG06Yb_E/edit?usp=sharing)
+
 ## Notebooks:  
 *  [Hello TensorFlow!](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/hello_tensorflow.ipynb)  
 *  [Keras Object Detection](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_object_detection.ipynb)  
-*  Semantic Segmentation  
 *  [Train MNIST TF Estimator](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/tf_estimator_mnist.ipynb)  
 *  [Train MNIST with Keras (Optional)](https://colab.research.google.com/github/kylehounslow/gdg_workshop/blob/master/notebooks/keras_mnist.ipynb)  
 
