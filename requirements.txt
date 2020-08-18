@@ -1,5 +1,5 @@
 numpy
-tensorflow-gpu==1.9.0
+tensorflow-gpu==1.15.2
 opencv-python
 requests
 googledrivedownloader
